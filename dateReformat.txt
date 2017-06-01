@@ -1,0 +1,27 @@
+Private Sub Worksheet_Change(ByVal Target As Range)
+Dim match As Boolean
+Dim strPattern As String: strPattern = "(\w*)\W(\d*)(?:st|nd|rd)?\W((?:20)?\d\d)"
+Dim strReplace As String: strReplace = "$2-$1-$3"
+Dim RE As New RegExp
+Dim strInput As String
+
+    If Not Intersect(Target, Range("A:C")) Is Nothing Then
+        Application.EnableEvents = False
+        
+        If strPattern <> "" Then
+            strInput = Target.Value
+        With RE
+            .Global = True
+            .MultiLine = True
+            .IgnoreCase = False
+            .pattern = strPattern
+        End With
+        
+            If RE.Test(strInput) Then
+                Target.Value = RE.Replace(strInput, strReplace)
+            End If
+        
+        Application.EnableEvents = True
+        End If
+    End If
+ End Sub
