@@ -8,16 +8,15 @@ Private Sub Worksheet_Change(ByVal Target As Range)
 If Not Intersect(Target, Range("A:B")) Is Nothing Then
     Dim firstCell As Range
     Set firstCell = Worksheets(2).Columns("A").Find(what:=Target.Value)
-    MsgBox("This guest already exists in ",buttons:=1) & firstCell.Address
-
     If Not firstCell Is Nothing Then
+      MsgBox("This guest already exists in ",buttons:=1) & firstCell.Address
+
+
       fc = firstCell
-      Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
-      MsgBox("and again at "),buttons:=1) & fc.Address
       Do Until fc Is firstCell
           Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
           MsgBox("and again at "),buttons:=1) & fc.Address
-'      Loop While fc Is Not firstCell
+      Loop While fc Is Not firstCell
     End If
 End If
 End Sub
