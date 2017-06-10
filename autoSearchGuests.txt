@@ -5,11 +5,14 @@ If Not Intersect(Target, Range("A:B")) Is Nothing Then
     Set firstCell = Worksheets(2).Columns("A").Find(what:=Target.Value)
     Set fc = firstCell
         If Not firstCell Is Nothing And firstCell.Address <> Target.Address And IsEmpty(firstCell) = False Then
-      MsgBox ("This guest exists in ") & firstCell.Address
+      MsgBox ("This guest also exists in ") & firstCell.Address
+      Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
+    If fc.Address <> cell.Address Then
         Do
+            MsgBox ("And agin in ") & fc.Address
             Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
-            MsgBox ("And in ") & fc.Address
         Loop While fc.Address <> cell.Address
+    End If
     End If
 End If
 End Sub
