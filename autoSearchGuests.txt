@@ -1,22 +1,15 @@
-' on cell change this will search for the target text in the sheet and trigger a window that notifies the user that a name is present already.
-'searches in the a colum for visitor name matched on cell exit'
-TODO
-THis loop is infinite, establish an end condition
-
 Private Sub Worksheet_Change(ByVal Target As Range)
 
 If Not Intersect(Target, Range("A:B")) Is Nothing Then
-    Dim firstCell As Range
+    Set cell = Target
     Set firstCell = Worksheets(2).Columns("A").Find(what:=Target.Value)
-    If Not firstCell Is Nothing Then
-      MsgBox("This guest already exists in ",buttons:=1) & firstCell.Address
-
-
-      fc = firstCell
-      Do Until fc Is firstCell
-          Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
-          MsgBox("and again at "),buttons:=1) & fc.Address
-      Loop While fc Is Not firstCell
+    Set fc = firstCell
+        If Not firstCell Is Nothing And firstCell.Address <> Target.Address And IsEmpty(firstCell) = False Then
+      MsgBox ("This guest exists in ") & firstCell.Address
+        Do
+            Set fc = Worksheets(2).Columns("A").FindNext(after:=fc)
+            MsgBox ("And in ") & fc.Address
+        Loop While fc.Address <> cell.Address
     End If
 End If
 End Sub
